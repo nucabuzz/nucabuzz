@@ -35,17 +35,19 @@ export default function SingelTable({
   dashboard,
 }) {
 
-  {/* Urut data Default
-  const tracks = dashboard?.catalogs?.singles?.tracks ?? [];
-  */}
-
-  const tracks = [...(dashboard?.catalogs?.singles?.tracks ?? [])].sort(
-    (a, b) => b.daily.value - a.daily.value
-  );
+  const tracks = [...(dashboard?.catalogs?.singles?.tracks ?? [])]
+    .filter(
+      (track) =>
+        track?.total?.value > 0 ||
+        track?.daily?.value > 0
+    )
+    .sort((a, b) => b.daily.value - a.daily.value);
 
   return (
     <div>
+
       {/* TITLE */}
+
       <div className="mb-5">
 
         <h2 className="text-xl font-bold tracking-tight">
@@ -59,6 +61,7 @@ export default function SingelTable({
       </div>
 
       {/* TABLE */}
+
       <div
         className="
         bg-zinc-900/20
@@ -71,6 +74,7 @@ export default function SingelTable({
         <table className="w-full table-fixed text-sm">
 
           {/* HEADER */}
+
           <thead>
 
             <tr className="border-b border-zinc-800/60">
@@ -149,6 +153,7 @@ export default function SingelTable({
           </thead>
 
           {/* BODY */}
+
           <tbody>
 
             {tracks.map((track) => (
@@ -171,6 +176,7 @@ export default function SingelTable({
               >
 
                 {/* TRACK */}
+
                 <td
                   className="
                   px-3
@@ -227,6 +233,7 @@ export default function SingelTable({
                 </td>
 
                 {/* STREAMS */}
+
                 <td
                   className="
                   px-2
@@ -247,6 +254,7 @@ export default function SingelTable({
                 </td>
 
                 {/* DAILY */}
+
                 <td
                   className="
                   py-3

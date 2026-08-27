@@ -35,14 +35,14 @@ export default function CollabsTable({
   dashboard,
 }) {
 
-  {/* Urut data Default
-  const tracks = dashboard?.catalogs?.collaborations?.tracks ?? [];
-  */}
+  const tracks = [...(dashboard?.catalogs?.collaborations?.tracks ?? [])]
+    .filter(
+      (track) =>
+        track?.total?.value > 0 ||
+        track?.daily?.value > 0
+    )
+    .sort((a, b) => b.daily.value - a.daily.value);
 
-  const tracks = [...(dashboard?.catalogs?.collaborations?.tracks ?? [])].sort(
-    (a, b) => b.daily.value - a.daily.value
-  );
-  
   return (
     <div>
 

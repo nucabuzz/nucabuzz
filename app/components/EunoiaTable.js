@@ -4,13 +4,13 @@ export default function EunoiaTable({
   dashboard,
 }) {
 
-  {/* Urut data Default
-  const tracks = dashboard?.catalogs?.eunoia?.tracks ?? [];
-  */}
-
-  const tracks = [...(dashboard?.catalogs?.eunoia?.tracks ?? [])].sort(
-    (a, b) => b.daily.value - a.daily.value
-  );
+  const tracks = [...(dashboard?.catalogs?.eunoia?.tracks ?? [])]
+    .filter(
+      (track) =>
+        track?.total?.value > 0 ||
+        track?.daily?.value > 0
+    )
+    .sort((a, b) => b.daily.value - a.daily.value);
   
   const TrendDot = (trend) => {
     const value = trend?.toUpperCase();
