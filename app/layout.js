@@ -6,8 +6,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "Nuchart Streams",
-  description: "Nuchart Spotify Statistics Tracker",
+  title: "Nuca Streams",
+  description: "Nuca Spotify Statistics Tracker by nucabuzz",
 };
 
 export default function RootLayout({ children }) {

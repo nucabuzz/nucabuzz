@@ -38,7 +38,7 @@ export default function Footer() {
                 text-zinc-200
               "
             >
-              NUCHART STREAMS
+              NUCA STREAMS
             </h3>
 
             <p
@@ -47,7 +47,7 @@ export default function Footer() {
                 text-zinc-500
               "
             >
-              © 2026 Nuchart.id
+              © 2026 by nucabuzz
             </p>
           </div>
 

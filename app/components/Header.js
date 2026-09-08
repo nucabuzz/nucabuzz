@@ -88,7 +88,7 @@ export default function Header({
                 text-white
               "
             >
-              NUCHART STREAMS
+              NUCA STREAMS
             </h1>
 
             {/* Subtitle */}
@@ -103,7 +103,7 @@ export default function Header({
                 text-zinc-300
               "
             >
-              Spotify Statistics Dashboard
+              Spotify Statistics Dashboard by nucabuzz
             </p>
 
             {/* Date Picker */}
