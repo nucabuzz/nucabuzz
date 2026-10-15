@@ -9,7 +9,6 @@ const singleCovers = {
   "Perisai": "/covers/perisai.jpg",
   "Perisai (Acoustic)": "/covers/perisai-accoustic.jpg",
   "Lost Stars": "/covers/lost-stars.jpg",
-  "Pesan Rindu": "/covers/pesan-rindu-album.jpg",
 };
 
 function TrendDot({ trend }) {
