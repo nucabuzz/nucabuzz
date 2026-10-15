@@ -8,7 +8,6 @@ const collabCovers = {
   "Benih": "/covers/benih.jpg",
   "Taklukkan Takut": "/covers/taklukkan-takut.jpg",
   "Taklukkan Takut (Accoustic)": "/covers/taklukkan-takut.jpg",
-  "Pesan Rindu": "/covers/pesan-rindu.jpg",
 };
 
 function TrendDot({ trend }) {
