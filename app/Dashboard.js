@@ -8,6 +8,7 @@ import StatsCards from "./components/StatsCards";
 import CatalogCards from "./components/CatalogCards";
 import EunoiaTable from "./components/EunoiaTable";
 import SingelTable from "./components/SingelTable";
+import SpecialsTable from "./components/SpecialsTable";
 import CollabsTable from "./components/CollabsTable";
 
 import { getDashboardData } from "../lib/api";
@@ -100,9 +101,13 @@ export default function Dashboard({
 
             <EunoiaTable dashboard={dashboard} />
 
-            <SingelTable dashboard={dashboard} />
+            <SingelTable dashboard={dashboard} />            
 
             <CollabsTable dashboard={dashboard} />
+
+            {dashboard?.catalogs?.specials && (
+              <SpecialsTable dashboard={dashboard} />
+            )}
 
           </div>
 

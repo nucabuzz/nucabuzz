@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 const singleCovers = {
-  "Crolatte 2.0": "/covers/crolatte.jpg",
+  "Crolatte 2.0": "/covers/crolatte2.jpg",
   "Hilang": "/covers/hilang.jpg",
   "Sekarang, Esok, Selamanya":
     "/covers/sekarang-esok-selamanya.jpg",
