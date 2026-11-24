@@ -1,8 +1,52 @@
+
 import { TrendingDown, TrendingUp, Minus } from "lucide-react";
 
-export default function StatsCards({
-  dashboard,
-}) {
+export default function StatsCards({ dashboard }) {
+  const catalogData = dashboard?.catalogs ?? {};
+
+  // Gunakan Deluxe sebagai pengganti Original jika sudah tersedia
+  const eunoiaData =
+    catalogData.eunoia?.deluxe ?? catalogData.eunoia;
+
+  // Kategori katalog yang dihitung
+  const activeCatalogs = [
+    eunoiaData,
+    catalogData.singles,
+    catalogData.specials,
+    catalogData.collaborations,
+  ].filter(Boolean);
+
+  // Hitung ulang total katalog tanpa menghitung Original dan Deluxe sekaligus
+  const totalCatalogStreams = activeCatalogs.reduce(
+    (total, category) =>
+      total + (category?.summary?.totalStreams?.value ?? 0),
+    0
+  );
+
+  const dailyCatalogStreams = activeCatalogs.reduce(
+    (total, category) =>
+      total + (category?.summary?.dailyStreams?.value ?? 0),
+    0
+  );
+
+  const dailyCatalogDifference = activeCatalogs.reduce(
+    (total, category) =>
+      total +
+      (category?.summary?.dailyStreams?.difference?.value ?? 0),
+    0
+  );
+
+  const catalogTrend =
+    dailyCatalogDifference > 0
+      ? "up"
+      : dailyCatalogDifference < 0
+      ? "down"
+      : "same";
+
+  // Format angka Indonesia
+  const formatNumber = (value) =>
+    value.toLocaleString("id-ID");
+
   const stats = [
     {
       title: "Monthly Listeners",
@@ -27,19 +71,27 @@ export default function StatsCards({
     {
       title: "Total Catalog",
       value:
-        dashboard?.overview?.catalog?.totalStreams?.text ?? "-",
+        activeCatalogs.length > 0
+          ? formatNumber(totalCatalogStreams)
+          : dashboard?.overview?.catalog?.totalStreams?.text ?? "-",
       icon: "🎵",
     },
     {
       title: "Daily Streams",
       value:
-        dashboard?.overview?.catalog?.dailyStreams?.text ?? "-",
+        activeCatalogs.length > 0
+          ? formatNumber(dailyCatalogStreams)
+          : dashboard?.overview?.catalog?.dailyStreams?.text ?? "-",
 
       daily:
-        dashboard?.overview?.catalog?.dailyStreams?.difference?.text ?? "-",
+        activeCatalogs.length > 0
+          ? `${dailyCatalogDifference > 0 ? "+" : ""}${formatNumber(dailyCatalogDifference)}`
+          : dashboard?.overview?.catalog?.dailyStreams?.difference?.text ?? "-",
 
       trend:
-        dashboard?.overview?.catalog?.dailyStreams?.trend ?? "same",
+        activeCatalogs.length > 0
+          ? catalogTrend
+          : dashboard?.overview?.catalog?.dailyStreams?.trend ?? "same",
 
       icon: "🔥",
     },
@@ -113,7 +165,6 @@ export default function StatsCards({
           "
         >
           {/* Hover Glow */}
-
           <div
             className="
               absolute
@@ -135,9 +186,7 @@ export default function StatsCards({
           />
 
           <div className="relative z-10">
-
             <div className="flex items-center justify-between mb-2">
-
               <span
                 className="
                   text-[10px]
@@ -161,7 +210,6 @@ export default function StatsCards({
               >
                 {stat.icon}
               </span>
-
             </div>
 
             <h2
@@ -170,12 +218,9 @@ export default function StatsCards({
                 sm:text-2xl
                 font-black
                 tracking-tight
-
                 text-white
-
                 transition-colors
                 duration-300
-
                 group-hover:text-blue-50
               "
             >
@@ -184,14 +229,12 @@ export default function StatsCards({
 
             {stat.daily && (
               <div className="mt-2 flex items-center gap-1.5">
-
                 <TrendIcon trend={stat.trend} />
 
                 <span
                   className={`
                     text-xs
                     font-medium
-
                     ${
                       stat.trend === "up"
                         ? "text-green-400"
@@ -203,12 +246,9 @@ export default function StatsCards({
                 >
                   {stat.daily}
                 </span>
-
               </div>
             )}
-
           </div>
-
         </div>
       ))}
     </div>

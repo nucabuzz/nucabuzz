@@ -1,87 +1,70 @@
+
 import Image from "next/image";
 
-export default function EunoiaTable({
-  dashboard,
-}) {
+function TrendDot({ trend }) {
+  const value = trend?.toUpperCase();
 
-  const tracks = [...(dashboard?.catalogs?.eunoia?.tracks ?? [])]
+  if (value === "UP") {
+    return (
+      <span className="block w-2 h-2 rounded-full bg-green-500" />
+    );
+  }
+
+  if (value === "DOWN") {
+    return (
+      <span className="block w-2 h-2 rounded-full bg-red-500" />
+    );
+  }
+
+  return (
+    <span className="block w-2 h-2 rounded-full bg-zinc-500" />
+  );
+}
+
+function TrackTable({ title, subtitle, tracks, cover }) {
+  const sortedTracks = [...(tracks ?? [])]
     .filter(
       (track) =>
         track?.total?.value > 0 ||
         track?.daily?.value > 0
     )
-    .sort((a, b) => b.daily.value - a.daily.value);
-  
-  const TrendDot = (trend) => {
-    const value = trend?.toUpperCase();
-
-    if (value === "UP") {
-      return (
-        <span className="block w-2 h-2 rounded-full bg-green-500" />
-      );
-    }
-
-    if (value === "DOWN") {
-      return (
-        <span className="block w-2 h-2 rounded-full bg-red-500" />
-      );
-    }
-
-    return (
-      <span className="block w-2 h-2 rounded-full bg-zinc-500" />
+    .sort(
+      (a, b) =>
+        (b?.daily?.value ?? 0) - (a?.daily?.value ?? 0)
     );
-  };
 
   return (
     <div>
-
       {/* TITLE */}
-
       <div className="mb-5">
-
         <h2 className="text-xl font-bold tracking-tight">
-          Daily Streams Eunoia
+          {title}
         </h2>
 
         <p className="text-sm text-zinc-500 mt-1">
-          Album Tracks Performance
+          {subtitle}
         </p>
-
       </div>
 
       {/* TABLE */}
-
       <div
         className="
-        bg-zinc-900/20
-        backdrop-blur-xl
-        rounded-2xl
-        overflow-hidden
+          bg-zinc-900/20
+          backdrop-blur-xl
+          rounded-2xl
+          overflow-hidden
         "
       >
-
         <table className="w-full table-fixed text-sm">
-
           <thead>
-
             <tr className="border-b border-zinc-800/60">
-
               <th
                 className="
-                px-3
-                md:px-4
-                py-3
-
-                text-left
-
-                text-[10px]
-                md:text-[11px]
-
-                uppercase
-                tracking-[3px]
-
-                text-zinc-500
-                font-semibold
+                  px-3 md:px-4 py-3
+                  text-left
+                  text-[10px] md:text-[11px]
+                  uppercase tracking-[3px]
+                  text-zinc-500 font-semibold
                 "
               >
                 Track
@@ -89,23 +72,12 @@ export default function EunoiaTable({
 
               <th
                 className="
-                w-[85px]
-                sm:w-[95px]
-                md:w-[120px]
-
-                px-2
-                py-3
-
-                text-right
-
-                text-[10px]
-                md:text-[11px]
-
-                uppercase
-                tracking-[3px]
-
-                text-zinc-500
-                font-semibold
+                  w-[85px] sm:w-[95px] md:w-[120px]
+                  px-2 py-3
+                  text-right
+                  text-[10px] md:text-[11px]
+                  uppercase tracking-[3px]
+                  text-zinc-500 font-semibold
                 "
               >
                 Streams
@@ -113,181 +85,132 @@ export default function EunoiaTable({
 
               <th
                 className="
-                w-[95px]
-                sm:w-[115px]
-                md:w-[130px]
-
-                px-2
-                py-3
-
-                text-right
-
-                text-[10px]
-                md:text-[11px]
-
-                uppercase
-                tracking-[3px]
-
-                text-zinc-500
-                font-semibold
+                  w-[95px] sm:w-[115px] md:w-[130px]
+                  px-2 py-3
+                  text-right
+                  text-[10px] md:text-[11px]
+                  uppercase tracking-[3px]
+                  text-zinc-500 font-semibold
                 "
               >
                 Daily
               </th>
-
             </tr>
-
           </thead>
 
           <tbody>
-
-            {tracks.map((track) => (
-
+            {sortedTracks.map((track) => (
               <tr
                 key={track.track}
                 className="
-                group
-
-                border-b
-                border-zinc-800/40
-
-                transition-all
-                duration-300
-
-                hover:bg-gradient-to-r
-                hover:from-blue-500/[0.06]
-                hover:to-transparent
+                  group
+                  border-b border-zinc-800/40
+                  transition-all duration-300
+                  hover:bg-gradient-to-r
+                  hover:from-blue-500/[0.06]
+                  hover:to-transparent
                 "
               >
-
                 {/* TRACK */}
-
-                <td
-                  className="
-                  px-3
-                  md:px-4
-                  py-3
-                  "
-                >
-
+                <td className="px-3 md:px-4 py-3">
                   <div className="flex items-center gap-2.5">
-
                     <Image
-                      src="/covers/eunoia.jpg"
-                      alt="Eunoia"
+                      src={cover}
+                      alt={title}
                       width={32}
                       height={32}
                       className="
-                      rounded-lg
-                      border
-                      border-zinc-700/70
-                      shadow-sm
-                      shrink-0
-
-                      transition-all
-                      duration-300
-
-                      group-hover:scale-105
+                        rounded-lg
+                        border border-zinc-700/70
+                        shadow-sm shrink-0
+                        transition-all duration-300
+                        group-hover:scale-105
                       "
                     />
 
                     <div className="min-w-0">
-
                       <p
                         className="
-                        truncate
-
-                        text-sm
-                        md:text-[15px]
-
-                        font-medium
-                        text-white
+                          truncate
+                          text-sm md:text-[15px]
+                          font-medium text-white
                         "
                         title={track.track}
                       >
                         {track.track}
                       </p>
-
                     </div>
-
                   </div>
-
                 </td>
 
                 {/* STREAMS */}
-
                 <td
                   className="
-                  px-2
-                  py-3
-
-                  text-right
-
-                  text-xs
-                  sm:text-sm
-
-                  font-semibold
-                  text-zinc-300
-
-                  whitespace-nowrap
+                    px-2 py-3 text-right
+                    text-xs sm:text-sm
+                    font-semibold text-zinc-300
+                    whitespace-nowrap
                   "
                 >
                   {track.total.text}
                 </td>
 
                 {/* DAILY */}
-
-                <td
-                  className="
-                  py-3
-                  pr-3
-                  md:pr-4
-                  "
-                >
-
+                <td className="py-3 pr-3 md:pr-4">
                   <div
                     className="
-                    flex
-                    items-center
-                    justify-end
-                    gap-1.5
+                      flex items-center justify-end gap-1.5
                     "
                   >
-
                     <span
                       className="
-                      text-xs
-                      sm:text-sm
-
-                      font-medium
-                      text-zinc-300
-
-                      whitespace-nowrap
+                        text-xs sm:text-sm
+                        font-medium text-zinc-300
+                        whitespace-nowrap
                       "
                     >
                       {track.daily.text}
                     </span>
 
                     <span className="w-3 flex justify-center">
-
-                      {TrendDot(track.daily.trend)}
-
+                      <TrendDot trend={track.daily.trend} />
                     </span>
-
                   </div>
-
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
-
       </div>
+    </div>
+  );
+}
 
+export default function EunoiaTable({ dashboard }) {
+  const eunoia = dashboard?.catalogs?.eunoia;
+
+  const originalTracks = eunoia?.tracks ?? [];
+  const deluxeTracks = eunoia?.deluxe?.tracks ?? [];
+
+  return (
+    <div className="contents">
+      {/* EUNOIA ORIGINAL */}
+      <TrackTable
+        title="Daily Streams EUNOIA"
+        subtitle="Original Album Tracks Performance"
+        tracks={originalTracks}
+        cover="/covers/eunoia.jpg"
+      />
+
+      {/* EUNOIA DELUXE */}
+      {eunoia?.deluxe && (
+        <TrackTable
+          title="Daily Streams EUNOIA (Deluxe)"
+          subtitle="Deluxe Album Tracks Performance"
+          tracks={deluxeTracks}
+          cover="/covers/eunoia-deluxe.jpg"
+        />
+      )}
     </div>
   );
 }

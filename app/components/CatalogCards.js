@@ -6,10 +6,7 @@ import {
   Minus,
 } from "lucide-react";
 
-export default function CatalogCards({
-  dashboard,
-}) {
-
+export default function CatalogCards({ dashboard }) {
   const catalogData = dashboard?.catalogs ?? {};
 
   const catalogs = [
@@ -17,52 +14,61 @@ export default function CatalogCards({
       key: "eunoia",
       title: "Eunoia",
       cover: "/covers/eunoia.jpg",
+      data: catalogData.eunoia,
     },
+    ...(catalogData.eunoia?.deluxe
+      ? [
+          {
+            key: "eunoia-deluxe",
+            title: "Eunoia (Deluxe)",
+            cover: "/covers/eunoia-deluxe.jpg",
+            data: catalogData.eunoia.deluxe,
+          },
+        ]
+      : []),
     {
       key: "singles",
       title: "Singles",
       cover: "/covers/singel.jpg",
+      data: catalogData.singles,
     },
     {
       key: "collaborations",
       title: "Collaborations",
       cover: "/covers/collab.jpg",
+      data: catalogData.collaborations,
     },
     {
       key: "specials",
       title: "Specials Release",
       cover: "/covers/untuk_ayah.jpg",
+      data: catalogData.specials,
     },
   ]
+    // Hanya tampilkan kategori yang memiliki data
+    .filter((item) => item.data)
+    .map((item) => {
+      const summary = item.data.summary;
 
-  // Hanya tampilkan kategori yang memiliki data
-  .filter((item) => catalogData[item.key])
-  .map((item) => {
+      return {
+        ...item,
 
-    const summary =
-      catalogData[item.key].summary;
+        total:
+          summary?.totalStreams?.text ?? "-",
 
-    return {
-      ...item,
+        today:
+          summary?.dailyStreams?.text ?? "-",
 
-      total:
-        summary?.totalStreams?.text ?? "-",
+        difference:
+          summary?.dailyStreams?.difference?.text ?? "-",
 
-      today:
-        summary?.dailyStreams?.text ?? "-",
-
-      difference:
-        summary?.dailyStreams?.difference?.text ?? "-",
-
-      trend:
-        summary?.dailyStreams?.trend ?? "same",
-    };
-
-  });
+        trend:
+          summary?.dailyStreams?.trend ?? "same",
+      };
+    });
 
   const TrendIcon = ({ trend }) => {
     switch (trend?.toLowerCase()) {
-
       case "up":
         return (
           <TrendingUp
@@ -113,7 +119,6 @@ export default function CatalogCards({
         "
       >
         {catalogs.map((item) => (
-
           <div
             key={item.key}
             className="
@@ -135,7 +140,6 @@ export default function CatalogCards({
               hover:shadow-black/40
             "
           >
-
             {/* Hover Glow */}
             <div
               className="
@@ -154,7 +158,6 @@ export default function CatalogCards({
             />
 
             <div className="relative z-10 flex items-center gap-2.5">
-
               <Image
                 src={item.cover}
                 alt={item.title}
@@ -172,7 +175,6 @@ export default function CatalogCards({
               />
 
               <div className="flex-1 min-w-0">
-
                 <p
                   className="
                     text-[9px]
@@ -201,10 +203,8 @@ export default function CatalogCards({
                 </h3>
 
                 <div className="mt-2 flex items-center gap-3">
-
                   {/* Daily Today */}
                   <div className="flex items-center gap-1.5">
-
                     <span
                       className="
                         text-[13px]
@@ -216,12 +216,10 @@ export default function CatalogCards({
                     >
                       {item.today}
                     </span>
-
                   </div>
 
                   {/* Daily Trend */}
                   <div className="flex items-center gap-1">
-
                     <TrendIcon trend={item.trend} />
 
                     <span
@@ -240,20 +238,13 @@ export default function CatalogCards({
                       {item.trend === "up" ? "+" : ""}
                       {item.difference}
                     </span>
-
                   </div>
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
-
         ))}
       </div>
     </>
   );
-
 }
